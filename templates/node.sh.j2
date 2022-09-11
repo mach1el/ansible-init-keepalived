@@ -13,6 +13,7 @@ return_code=1 # fail
 nc -nvz {{ KA_MASTER }} {{ KA_SV_PORT_CHECK }}
 {% else %}
 nc -nvuz {{ KA_MASTER }} {{ KA_SV_PORT_CHECK }}
+{% endif %}
 
 exit_status=$?
 if [[ $exit_status -eq 0 ]]; then
@@ -24,6 +25,7 @@ fi
 nc -nvz {{ KA_BACKUP }} {{ KA_SV_PORT_CHECK }}
 {% else %}
 nc -nvuz {{ KA_BACKUP }} {{ KA_SV_PORT_CHECK }}
+{% endif %}
 
 exit_status=$?
 if [[ $exit_status -eq 0 ]]; then
