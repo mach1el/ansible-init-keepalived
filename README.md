@@ -1,6 +1,33 @@
 # Ansible initialize Keepalived
 
+![Version](https://img.shields.io/github/v/release/mach1el/ansible_init_keepalived?color=brown&style=plastic) ![License](https://img.shields.io/github/license/mach1el/ansible_init_keepalived?color=purple&style=plastic)
+
 Ansible role for initialize keepalived configuration,as default it won't enable keepalived on systemd,this role using to generate configuration for docker container [mich43/keepalived](https://github.com/mach1el/docker-keepalived)
+
+## Role tree
+```
+.
+├── defaults
+│   └── main.yml
+├── files
+│   └── 99-non-local-bind.conf
+├── handlers
+│   └── main.yml
+├── LICENSE
+├── meta
+│   └── main.yml
+├── README.md
+├── tasks
+│   ├── add_configuration_file.yml
+│   ├── binding_nonlocal_ip.yml
+│   ├── install_packages.yml
+│   └── main.yml
+├── templates
+│   ├──  keepalived.conf.j2
+│   └──  node.sh.j2
+└── vars
+    └── main.yml
+```
 
 ## Default variables
 ```
