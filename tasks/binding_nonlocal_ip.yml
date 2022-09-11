@@ -1,0 +1,9 @@
+---
+
+- name: Update non ip local bind
+  copy:
+    src: "99-non-local-bind.conf"
+    dest: "/etc/sysctl.d/99-non-local-bind.conf"
+
+- name: Apply changes
+  shell: "sysctl -p"

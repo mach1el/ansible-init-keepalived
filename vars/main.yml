@@ -1,0 +1,6 @@
+---
+needed_packages:
+  - netcat
+  - net-tools
+  - libipset-dev
+  - keepalived

@@ -1,0 +1,11 @@
+---
+- name: Install needed packages
+  apt:
+    name: "{{ needed_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Disable keepalived for using docker container
+  shell: "echo 'This task will disable keepalived and use it on docker container instead'"
+  notify: Disable keepalived
+  when: disable_keepalived

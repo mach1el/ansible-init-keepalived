@@ -1,0 +1,16 @@
+---
+
+- name: Ensure keepalived configure dir exist
+  file:
+    path: "/etc/keepalived"
+    state: "directory"
+
+- name: Copy check script
+  template:
+    src: "node.sh.j2"
+    dest: "/etc/keepalived/node.sh"
+
+- name: Copy configuration file
+  template:
+    src: "keepalived.conf.j2"
+    dest: "/etc/keepalived/keepalived.conf"

@@ -1,0 +1,7 @@
+---
+
+- name: Disable keepalived
+  service: 
+    name: keepalived
+    state: stopped
+    enabled: false

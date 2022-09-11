@@ -1,0 +1,40 @@
+#!/bin/sh
+
+KA_MASTER={{ KA_MASTER }}
+KA_BACKUP={{ KA_BACKUP }}
+
+{% if KA_MASTER in ansible_all_ipv4_addresses %}
+return_code=0 # success
+{% else %}
+return_code=1 # fail
+{% endif %}
+
+{% if tcp %}
+nc -nvz {{ KA_MASTER }} {{ KA_SV_PORT_CHECK }}
+{% else %}
+nc -nvuz {{ KA_MASTER }} {{ KA_SV_PORT_CHECK }}
+
+exit_status=$?
+if [[ $exit_status -eq 0 ]]; then
+  echo "sip ping successful to KA_MASTER [$KA_MASTER]"
+  exit $return_code
+fi
+
+{% if tcp %}
+nc -nvz {{ KA_BACKUP }} {{ KA_SV_PORT_CHECK }}
+{% else %}
+nc -nvuz {{ KA_BACKUP }} {{ KA_SV_PORT_CHECK }}
+
+exit_status=$?
+if [[ $exit_status -eq 0 ]]; then
+  echo "sip ping successful to KA_BACKUP [$KA_BACKUP]"
+
+{% if KA_MASTER in ansible_all_ipv4_addresses %}
+  return_code=1
+{% else %}
+  return_code=0
+{% endif %}
+fi
+
+echo "return code [$return_code]"
+exit $return_code
