@@ -15,14 +15,14 @@ vrrp_instance NODE {
   virtual_router_id {{ KA_ROUTE_ID }}
   advert_int 1
   {% if KA_MASTER in ansible_all_ipv4_addresses %}
-  unicast_src_ip KA_MASTER
+  unicast_src_ip {{ KA_MASTER }}
   unicast_peer {
-    KA_BACKUP
+    {{ KA_BACKUP }}
   }
   {% else %}
-  unicast_src_ip KA_BACKUP
+  unicast_src_ip {{ KA_BACKUP }}
   unicast_peer {
-    KA_MASTER
+    {{ KA_MASTER }}
   }
   {% endif %}
   authentication {
