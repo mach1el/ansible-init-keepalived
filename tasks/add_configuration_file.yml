@@ -9,6 +9,7 @@
   template:
     src: "node.sh.j2"
     dest: "/etc/keepalived/node.sh"
+    mode: 0775
 
 - name: Copy configuration file
   template:
