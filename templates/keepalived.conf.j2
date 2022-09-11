@@ -3,7 +3,7 @@ global_defs {
   script_user root
   enable_script_security
 }
-vrrp_script check_service {
+vrrp_script keepalived_check {
   script "/etc/keepalived/node.sh"
   interval 5
 }
@@ -36,12 +36,14 @@ vrrp_instance NODE {
   virtual_ipaddress {
     {{ KA_VIP }} dev {{ KA_IFACE }}
   }
+{% if not check_service %}
   track_interface {
     {{ KA_IFACE }}
   }
+{% endif %}
 {% if check_service %}
   track_script {
-    check_service
+    keepalived_check
   }
 {% endif %}
 }
