@@ -1,4 +1,8 @@
 {% if check_service %}
+global_defs {
+  script_user root
+  enable_script_security
+}
 vrrp_script check_service {
   script "/etc/keepalived/node.sh"
   interval 5
@@ -6,25 +10,25 @@ vrrp_script check_service {
 {% endif %}
 
 vrrp_instance NODE {
-  {% if KA_MASTER in ansible_all_ipv4_addresses %}
+{% if KA_MASTER in ansible_all_ipv4_addresses %}
   state MASTER
-  {% else %}
+{% else %}
   state BACKUP
-  {% endif %}
+{% endif %}
   interface {{ KA_IFACE }}
   virtual_router_id {{ KA_ROUTE_ID }}
   advert_int 1
-  {% if KA_MASTER in ansible_all_ipv4_addresses %}
+{% if KA_MASTER in ansible_all_ipv4_addresses %}
   unicast_src_ip {{ KA_MASTER }}
   unicast_peer {
     {{ KA_BACKUP }}
   }
-  {% else %}
+{% else %}
   unicast_src_ip {{ KA_BACKUP }}
   unicast_peer {
     {{ KA_MASTER }}
   }
-  {% endif %}
+{% endif %}
   authentication {
     auth_type PASS
     auth_pass 11111
@@ -35,9 +39,9 @@ vrrp_instance NODE {
   track_interface {
     {{ KA_IFACE }}
   }
-  {% if check_service %}
+{% if check_service %}
   track_script {
     check_service
   }
-  {% endif %}
+{% endif %}
 }
